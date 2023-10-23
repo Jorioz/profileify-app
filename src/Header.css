@@ -1,0 +1,27 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    margin: auto;
+    background: linear-gradient(rgb(159, 223, 181), rgba(25, 20, 20, 100));
+    height: 20vh;
+    border-radius: 10px 10px 0px 0px;
+}
+
+.header__left {
+    border: 1px solid red;
+    display: flex;
+    align-items: center;
+    margin-left: 20%;
+}
+
+.header__right {
+    border: 1px solid red;
+    display: flex;
+    align-items: center;
+    margin-right: auto; 
+}
+
+.username {
+    border: 1px solid red;
+}
+
