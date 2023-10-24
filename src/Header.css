@@ -1,27 +1,32 @@
 .header {
-    display: flex;
-    justify-content: space-between;
+    justify-content: grid;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    right: 15px;
     margin: auto;
-    background: linear-gradient(rgb(159, 223, 181), rgba(25, 20, 20, 100));
-    height: 20vh;
     border-radius: 10px 10px 0px 0px;
+    transition: background-color 0.2s ease-in-out;
 }
 
-.header__left {
-    border: 1px solid red;
+.header-container {
     display: flex;
-    align-items: center;
-    margin-left: 20%;
+    justify-content: space-between;
+    margin: 0 auto;
+    padding: 10px;
 }
 
 .header__right {
-    border: 1px solid red;
     display: flex;
     align-items: center;
-    margin-right: auto; 
 }
 
-.username {
-    border: 1px solid red;
+.avatar {
+    margin-right: 10px;
+    cursor: pointer;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
 }
 
+.active {
+    background-color: rgb(113, 133, 118);
+}

@@ -1,6 +1,44 @@
 .body {
     margin: auto;
     background: rgb(25, 20, 20);
-    height: 80vh;
-
+    height: 100vh;
+    max-width: 100%;
+    border-radius: 10px 10px 0px 0px;
+    
 }
+
+.body__header-container {
+    display: flex;
+    align-items: center;
+    padding: 10px; 
+    border-radius: 10px 10px 0px 0px;
+    height: 350px;
+    background: linear-gradient(transparent, rgba(25,20,20, 0.9));
+}
+
+.body__header-left {
+    display: flex;
+    align-items: center;
+    margin-left: 5%;
+    margin-right: -60px;
+}
+
+.body__header-left > img {
+    max-width: 70%;
+    max-height: 70%;
+    object-fit: cover;
+    border-radius: 100%;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 8px 24px, rgba(17, 17, 26, 0.1) 0px 16px 56px, rgba(17, 17, 26, 0.1) 0px 24px 80px;
+}
+
+.body__header-right {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+}
+
+.body__header-right > h4{
+    font-size: 75pt;
+}
+
+
