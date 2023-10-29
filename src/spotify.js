@@ -8,7 +8,6 @@ const clientId = "6903b7a50df04cda8cb865d9b7bb2964"; // Client ID from Spotify D
 const scopes = [
     "user-read-playback-state",
     "user-read-currently-playing",
-    "playlist-read-private",
     "user-follow-read",
     "user-top-read",
     "user-read-recently-played",

@@ -30,6 +30,11 @@ const reducer = (state, action) => {
                 ...state,
                 playlists: action.playlists
             };
+        case 'SET_FOLLOWED_ARTISTS':
+            return {
+                ...state,
+                followedArtists: action.followedArtists
+            };
 
         default:
             return state;

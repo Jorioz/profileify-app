@@ -1,16 +1,21 @@
 import React from 'react'
 import './Body.css';
 import { useDataLayerValue } from './DataLayer';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 
 
 function Body() {
-  const [{ user }, dispatch] = useDataLayerValue();
+  const [{ user, playlists }, dispatch] = useDataLayerValue();
   const [headerBackgroundColor, setHeaderBackgroundColor] = useState('rgb(137, 194, 151)'); // Default color
-  
+
+  const [sliceRange, setSliceRange] = useState([0, playlists?.items?.length]); // Set initial slice range
+  const contentWrapperRef = useRef(null);
+
+
   useEffect(() => {
     const headerImage = new Image();
     headerImage.src = user?.images[1]?.url;
+    headerImage.crossOrigin = 'Anonymous';
 
     headerImage.onload = () => {
       const canvas = document.createElement('canvas');
@@ -27,19 +32,70 @@ function Body() {
         totalG += imageData[i + 1];
         totalB += imageData[i + 2];
       }
+      let avgR = Math.round(totalR / (imageData.length / 4));
+      let avgG = Math.round(totalG / (imageData.length / 4));
+      let avgB = Math.round(totalB / (imageData.length / 4));
 
-      const avgR = Math.round(totalR / (imageData.length / 4));
-      const avgG = Math.round(totalG / (imageData.length / 4));
-      const avgB = Math.round(totalB / (imageData.length / 4));
+      let prominentColor = 'R';
+      let scalingFactor = 5;
+
+      if (avgG > avgR && avgG > avgB) {
+        prominentColor = 'G';
+      } else if (avgB > avgR && avgB > avgG) {
+        prominentColor = 'B';
+      }
+
+      if (prominentColor === 'R') {
+        avgR *= scalingFactor;
+      } else if (prominentColor === 'G') {
+        avgG *= scalingFactor;
+      } else if (prominentColor === 'B') {
+        avgB *= scalingFactor;
+      }
 
       setHeaderBackgroundColor(`rgb(${avgR}, ${avgG}, ${avgB})`);
     };
-  }, [user]);
+
+    const handleResize = () => {
+      if (contentWrapperRef.current) {
+        const contentWrapperWidth = contentWrapperRef.current.offsetWidth;
+        const itemWidth = 200;
+
+        // Calculate the max number of items that can fit in the wrapper
+        const maxItems = Math.floor(contentWrapperWidth / itemWidth);
+
+        let adjustedMaxItems = maxItems;
+
+        // Check if any playlist item is wider than the wrapper and adjust the slice range
+        playlists?.items?.forEach((playlist) => {
+          if (playlist.images[0].width > contentWrapperWidth) {
+            adjustedMaxItems--;
+          }
+        });
+
+        setSliceRange([0, adjustedMaxItems]);
+
+        if (adjustedMaxItems < 4){
+          // Change the size of items to fit more in the wrapper
+        }
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [user, playlists]);
+
 
 
 
   return (
+    <>
     <div className='body'>
+      
 
       <div className='body__header'>
       <div className="body__header-container" style={{ backgroundColor: headerBackgroundColor }}>
@@ -47,11 +103,33 @@ function Body() {
             <img src={user?.images[1]?.url} alt="Profile" />
           </div>
           <div className='body__header-right'>
+            <p>Profileify</p>
             <h4>{user?.display_name}</h4>
+            <p>{user?.followers?.total} Spotify Followers • {playlists.total} Public Playlists</p>
           </div>
         </div>
       </div>
+
+      <div className='main-body'>
+
+      <div className= 'public-playlists'>
+        <div className = 'content-wrapper' ref={contentWrapperRef}>
+          {playlists?.items?.slice(...sliceRange).map(playlist =>
+          <div className = 'item'>
+            <div className = 'img-wrapper'>
+          <img src={playlist?.images[0]?.url} alt="Playlist" />
+            </div>
+            <p>{playlist?.name}</p>
+          </div>
+          )}
+          </div>
+      </div>
+
+      </div>
+
     </div>
+
+    </>
   )
 }
 

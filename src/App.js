@@ -39,6 +39,12 @@ function App() {
           playlists: playlists,
         });
       });
+      spotify.getFollowedArtists().then((followedArtists) => {
+        dispatch ({
+          type: "SET_FOLLOWED_ARTISTS",
+          followedArtists: followedArtists,
+        });
+      });
     };
   }, []);
 
