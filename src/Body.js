@@ -13,6 +13,7 @@ function Body() {
 
 
   useEffect(() => {
+
     const headerImage = new Image();
     headerImage.src = user?.images[1]?.url;
     headerImage.crossOrigin = 'Anonymous';
@@ -55,42 +56,68 @@ function Body() {
 
       setHeaderBackgroundColor(`rgb(${avgR}, ${avgG}, ${avgB})`);
     };
-
     const handleResize = () => {
+      const windowLimit = 850;
+      const items = document.querySelectorAll('.public-playlists .content-wrapper .item');
+      const playlistWrapper = document.querySelector('.public-playlists .content-wrapper');
+      let adjustedMaxItems = 6; // Default value
+  
+      if(window.innerWidth > windowLimit){
+        items.forEach((item) => {
+          item.classList.add('item-large');
+          item.classList.remove('item-small');
+        });
+        playlistWrapper.classList.add('wrapper-large');
+        playlistWrapper.classList.remove('wrapper-small');
       if (contentWrapperRef.current) {
         const contentWrapperWidth = contentWrapperRef.current.offsetWidth;
         const itemWidth = 200;
-
+  
         // Calculate the max number of items that can fit in the wrapper
         const maxItems = Math.floor(contentWrapperWidth / itemWidth);
-
-        let adjustedMaxItems = maxItems;
-
+  
+        adjustedMaxItems = maxItems;
+  
         // Check if any playlist item is wider than the wrapper and adjust the slice range
         playlists?.items?.forEach((playlist) => {
           if (playlist.images[0].width > contentWrapperWidth) {
             adjustedMaxItems--;
           }
         });
-
+  
         setSliceRange([0, adjustedMaxItems]);
-
+  
         if (adjustedMaxItems < 4){
           // Change the size of items to fit more in the wrapper
         }
       }
+    } else {
+      items.forEach((item) => {
+        item.classList.add('item-small');
+        item.classList.remove('item-large');
+      });
+      playlistWrapper.classList.add('wrapper-small');
+      playlistWrapper.classList.remove('wrapper-large');
+      setSliceRange([0, 5]);
+    }
+    
     };
+
+    const observer = new MutationObserver(() => {
+      handleResize();
+    });
+
+    observer.observe(document, { childList: true, subtree: true });
 
     window.addEventListener('resize', handleResize);
-    handleResize();
 
     return () => {
+      observer.disconnect();
       window.removeEventListener('resize', handleResize);
     };
-  }, [user, playlists]);
 
 
-
+}, []);
 
   return (
     <>

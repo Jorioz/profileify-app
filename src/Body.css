@@ -94,24 +94,52 @@
 .public-playlists .content-wrapper{
     width: 100%;
     height: 90%;
+    margin: 10px;
     display: flex;
+}
+
+.wrapper-large{
+
     align-items: center;
     justify-content: center;
-    margin: 10px;
+}
+
+.wrapper-small{
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: flex-start;
+    align-items: stretch;
 }
 
 .public-playlists .content-wrapper .item{
-    margin: 10px;
-    height: 100%;
-    min-width: 180px;
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    align-items: center;
     background-color: rgba(255, 255, 255, 0.03);
     transition: background-color 0.2s;
     border-radius: 10px;
+    display: flex;
+    
 }
+
+.item-large{
+    margin: 10px;
+    height: 100%;
+    min-width: 180px;
+    max-width: 180px;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    
+}
+
+.item-small{
+    height: 30%;
+    flex: 0 0 48%;
+    margin: 3px;
+    align-items: center;
+    text-align: center;
+    width: 10%;
+}
+
+
 
 .public-playlists .content-wrapper .item:hover {
     background-color: rgba(255, 255, 255, 0.07);
@@ -119,14 +147,17 @@
 }
 
 .public-playlists .content-wrapper .item .img-wrapper{
-    width: auto;
-    height: 70%;
-    padding: 20px;
-    padding-bottom: 1px;
-    
+    width: 70%;
+    height: auto;
+    position: relative;
+    padding-bottom: 70%;
+    margin: 10px;
 }
 
 .public-playlists .content-wrapper .item .img-wrapper > img{
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: contain;
@@ -137,10 +168,24 @@
 .public-playlists .content-wrapper .item > p {
     max-width: 80%;
     font-weight: bold;
-    padding-top: 20px;
-    padding-bottom: 40px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+@media screen and (max-width: 852px){
+    .public-playlists .content-wrapper .item > p {
+        font-size: calc(1vw + 0.4rem);
+        flex-shrink: 1;
+    }
+    .public-playlists .content-wrapper .item .img-wrapper {
+        padding-bottom: 30%;
+        width: 30%;
+        max-width: 50px;
+        min-width: 30px;
+        flex-shrink: 0;
+    }
+}
+
+
 
